@@ -1,22 +1,56 @@
 :root {
-  /* Variables de color de Lybet (Dark mode por defecto) */
-  --bg-1: #0a0a0a;
-  --bg-2: #121212;
-  --bg-3: #1a1a1a;
+  /* Variables de color Lybet (Deep Dark / OLED iOS Style) */
+  --bg-1: #000000;
+  --bg-2: #141416;
+  --bg-3: #1c1c1e;
   --text-1: #ffffff;
-  --text-2: #e0e0e0;
-  --text-muted: #888888;
-  --red: #e3000f;
-  --red-light: #ff3344;
-  --red-dark: #b3000b;
-  --border-1: #2a2a2a;
-  --border-2: #333333;
-  --r-sm: 4px;
-  --r-md: 8px;
-  --r-lg: 12px;
+  --text-2: #ebebf5;
+  --text-muted: #8e8e93;
+  --red: #ff3b30; /* iOS red tint */
+  --red-light: #ff453a;
+  --red-dark: #cc2f26;
+  --border-1: #38383a;
+  --border-2: #2c2c2e;
+  
+  --overlay-bg: rgba(20, 20, 22, 0.7);
+  --input-bg: rgba(10, 10, 10, 0.6);
+  --key-bg: rgba(255, 255, 255, 0.1);
+  --key-bg-hover: rgba(255, 255, 255, 0.15);
+  --modal-bg: rgba(28, 28, 30, 0.85);
+  --toast-text: #ffffff;
+  --nav-bg: rgba(20, 20, 22, 0.85);
+  --chip-bg: rgba(255, 255, 255, 0.08);
+
+  --r-sm: 12px;
+  --r-md: 20px;
+  --r-lg: 32px;
   --r-full: 9999px;
-  --font-sans: 'Inter', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+:root.light {
+  /* Variables de color Lybet (Light iOS Style) */
+  --bg-1: #f2f2f7;
+  --bg-2: #ffffff;
+  --bg-3: #e5e5ea;
+  --text-1: #000000;
+  --text-2: #3c3c43;
+  --text-muted: #8e8e93;
+  --red: #ff3b30;
+  --red-light: #ff453a;
+  --red-dark: #cc2f26;
+  --border-1: #c6c6c8;
+  --border-2: #d1d1d6;
+
+  --overlay-bg: rgba(255, 255, 255, 0.8);
+  --input-bg: rgba(255, 255, 255, 0.8);
+  --key-bg: rgba(0, 0, 0, 0.05);
+  --key-bg-hover: rgba(0, 0, 0, 0.1);
+  --modal-bg: rgba(255, 255, 255, 0.95);
+  --toast-text: #000000;
+  --nav-bg: rgba(255, 255, 255, 0.9);
+  --chip-bg: rgba(0, 0, 0, 0.05);
 }
 
 * {

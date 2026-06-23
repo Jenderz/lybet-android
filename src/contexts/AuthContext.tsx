@@ -3,8 +3,10 @@ import type { AuthState, User } from '../models/types';
 import { userService } from '../services/userService';
 import { ticketService, limitService } from '../services/dataService';
 
-interface AuthContextType extends AuthState {
-  login: (usuario: string, password: string) => boolean;
+interface AuthContextType {
+  isAuthenticated: boolean;
+  currentUser: User | null;
+  login: (usuario: string, password: string) => { success: boolean; error?: string };
   logout: () => void;
 }
 
@@ -25,24 +27,34 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const saved = localStorage.getItem('lybet_taq_session');
       if (saved) {
         const user = JSON.parse(saved) as User;
-        setState({ isAuthenticated: true, currentUser: user });
+        if (user.rol === 'Agencia') {
+          setState({ isAuthenticated: true, currentUser: user });
+        } else {
+          localStorage.removeItem('lybet_taq_session');
+        }
       }
     } catch {
       // sesión inválida, ignorar
     }
   }, []);
 
-  const login = (usuario: string, password: string): boolean => {
+  const login = (usuario: string, password: string): { success: boolean; error?: string } => {
     const users = userService.getAll();
     const user = users.find(
       (u) => u.usuario === usuario && u.password === password && u.estado === 'activo'
     );
     if (user) {
+      if (user.rol !== 'Agencia') {
+        return {
+          success: false,
+          error: 'Acceso denegado: Esta aplicación está reservada exclusivamente para cuentas de tipo Agencia.',
+        };
+      }
       setState({ isAuthenticated: true, currentUser: user });
       localStorage.setItem('lybet_taq_session', JSON.stringify(user));
-      return true;
+      return { success: true };
     }
-    return false;
+    return { success: false, error: 'Usuario o contraseña incorrectos.' };
   };
 
   const logout = () => {

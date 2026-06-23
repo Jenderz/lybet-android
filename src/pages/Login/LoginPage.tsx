@@ -18,9 +18,9 @@ const LoginPage: React.FC = () => {
       return;
     }
 
-    const success = login(usuario, password);
-    if (!success) {
-      setError('Usuario o contraseña incorrectos.');
+    const res = login(usuario, password);
+    if (!res.success) {
+      setError(res.error || 'Usuario o contraseña incorrectos.');
     }
   };
 
