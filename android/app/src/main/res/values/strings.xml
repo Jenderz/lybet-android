@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Lybet Taquilla</string>
+    <string name="title_activity_main">Lybet Taquilla</string>
+    <string name="package_name">com.lybet.taquilla</string>
+    <string name="custom_url_scheme">com.lybet.taquilla</string>
+</resources>

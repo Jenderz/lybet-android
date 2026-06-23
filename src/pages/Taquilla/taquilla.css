@@ -1,0 +1,399 @@
+/* LYBET TAQUILLA - ESTILOS MÓVILES */
+
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
+  background-color: var(--bg-1);
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease;
+}
+@keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+/* HEADER */
+.app-header {
+  height: 60px;
+  background-color: var(--bg-2);
+  border-bottom: 1px solid var(--border-2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 15px;
+}
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.logo-icon {
+  background: linear-gradient(135deg, var(--red-light), var(--red-dark));
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 14px;
+}
+.brand-text {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+.logout-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  padding: 8px;
+  border-radius: var(--r-full);
+}
+.logout-btn:active { background: var(--bg-3); color: var(--red); }
+
+/* TABS HORIZONTALES (Scrollable) */
+.lottery-tabs-container {
+  display: flex;
+  overflow-x: auto;
+  background: var(--bg-2);
+  padding: 10px 15px;
+  gap: 10px;
+  border-bottom: 1px solid var(--border-1);
+}
+.lottery-tabs-container::-webkit-scrollbar { display: none; }
+.lottery-tab {
+  white-space: nowrap;
+  background: var(--bg-3);
+  border: 1px solid var(--border-2);
+  color: var(--text-2);
+  padding: 8px 16px;
+  border-radius: var(--r-full);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+.lottery-tab.active {
+  background: var(--red);
+  border-color: var(--red-dark);
+  color: white;
+}
+
+/* MAIN CONTENT SCROLL AREA */
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 15px;
+  padding-bottom: 80px; /* space for bottom nav */
+}
+
+/* SORTEOS VIEW */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+.select-all-btn {
+  background: var(--bg-3);
+  border: 1px solid var(--border-2);
+  color: var(--text-2);
+  padding: 4px 12px;
+  border-radius: var(--r-full);
+  font-size: 0.8rem;
+}
+.lottery-group {
+  margin-bottom: 20px;
+  background: var(--bg-2);
+  border-radius: var(--r-md);
+  padding: 12px;
+  border: 1px solid var(--border-1);
+}
+.group-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+}
+.sorteos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 8px;
+}
+.sorteo-card {
+  background: var(--bg-3);
+  border: 1px solid var(--border-2);
+  color: var(--text-2);
+  padding: 10px 5px;
+  border-radius: var(--r-sm);
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-weight: 600;
+}
+.sorteo-card.selected {
+  background: rgba(227, 0, 15, 0.15);
+  border-color: var(--red);
+  color: var(--red-light);
+}
+
+/* NUMEROS VIEW */
+.input-display {
+  background: var(--bg-2);
+  padding: 15px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--border-1);
+  margin-bottom: 15px;
+}
+.input-group-row {
+  display: flex;
+  gap: 15px;
+}
+.input-box {
+  flex: 1;
+}
+.input-box label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 5px;
+  display: block;
+}
+.input-box .val {
+  background: var(--bg-1);
+  border: 1px solid var(--border-2);
+  height: 48px;
+  border-radius: var(--r-md);
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+  color: var(--red-light);
+  font-weight: 700;
+}
+.monto-wrapper {
+  display: flex;
+  height: 48px;
+  background: var(--bg-1);
+  border: 1px solid var(--border-2);
+  border-radius: var(--r-md);
+  overflow: hidden;
+}
+.cur-btn {
+  background: var(--bg-3);
+  border: none;
+  border-right: 1px solid var(--border-2);
+  color: var(--text-2);
+  padding: 0 10px;
+  font-weight: 700;
+}
+.cur-btn.active {
+  background: var(--red);
+  color: white;
+  border-right-color: var(--red-dark);
+}
+.monto-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--text-1);
+  font-size: 1.2rem;
+  font-weight: 700;
+  padding: 0 10px;
+  min-width: 0;
+  outline: none;
+}
+
+.quick-amounts {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 15px;
+  overflow-x: auto;
+}
+.quick-chip {
+  background: var(--bg-3);
+  border: 1px solid var(--border-2);
+  color: var(--text-2);
+  padding: 8px 16px;
+  border-radius: var(--r-full);
+  font-weight: 600;
+  flex: 1;
+}
+
+.numpad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.numpad-key {
+  background: var(--bg-2);
+  border: 1px solid var(--border-2);
+  height: 60px;
+  border-radius: var(--r-md);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-1);
+}
+.numpad-key:active { background: var(--bg-3); }
+.numpad-key.clear { color: var(--red-light); }
+
+.add-play-btn {
+  width: 100%;
+  height: 56px;
+  background: var(--red);
+  color: white;
+  border: none;
+  border-radius: var(--r-md);
+  font-size: 1.1rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.add-play-btn:disabled {
+  background: var(--border-2);
+  color: var(--text-muted);
+}
+
+/* TICKET VIEW */
+.ticket-header-info {
+  background: var(--bg-2);
+  padding: 15px;
+  border-radius: var(--r-md);
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.1rem;
+  border: 1px solid var(--border-1);
+}
+.jugadas-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.jugada-row {
+  background: var(--bg-2);
+  border: 1px solid var(--border-2);
+  padding: 12px;
+  border-radius: var(--r-md);
+  display: flex;
+  align-items: center;
+}
+.j-info { flex: 1; }
+.j-title { font-size: 0.85rem; color: var(--text-2); font-weight: 600; }
+.j-monto { font-size: 0.8rem; color: var(--text-muted); }
+.j-num {
+  font-family: var(--font-mono);
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--red-light);
+  padding: 0 15px;
+}
+.j-del {
+  background: rgba(227, 0, 15, 0.1);
+  color: var(--red-light);
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--r-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ticket-actions {
+  display: flex;
+  gap: 10px;
+}
+.btn-secondary {
+  flex: 1;
+  height: 50px;
+  background: var(--bg-3);
+  border: 1px solid var(--border-2);
+  color: var(--text-2);
+  border-radius: var(--r-md);
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.btn-primary {
+  flex: 2;
+  height: 50px;
+  background: #00DC64; /* Verde Whatsapp style */
+  border: none;
+  color: #000;
+  border-radius: var(--r-md);
+  font-weight: 800;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.btn-primary:disabled { opacity: 0.5; }
+
+/* BOTTOM NAV */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 65px;
+  background: var(--bg-2);
+  border-top: 1px solid var(--border-2);
+  display: flex;
+  z-index: 100;
+}
+.nav-btn {
+  flex: 1;
+  background: none;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.nav-btn.active {
+  color: var(--red-light);
+}
+.nav-icon-wrapper {
+  position: relative;
+}
+.badge {
+  position: absolute;
+  top: -5px; right: -8px;
+  background: var(--border-2);
+  color: var(--text-1);
+  font-size: 0.65rem;
+  padding: 2px 5px;
+  border-radius: var(--r-full);
+  font-weight: 800;
+}
+.badge.red { background: var(--red); }
+
+/* TOAST */
+.toast-message {
+  position: fixed;
+  top: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg-3);
+  color: white;
+  padding: 10px 20px;
+  border-radius: var(--r-full);
+  font-size: 0.9rem;
+  font-weight: 600;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  border: 1px solid var(--border-2);
+  animation: fadeIn 0.3s;
+}
+.toast-message.ok { border-color: #00DC64; color: #00DC64; }
+.toast-message.err { border-color: var(--red); color: var(--red-light); }

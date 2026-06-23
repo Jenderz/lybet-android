@@ -1,0 +1,60 @@
+:root {
+  /* Variables de color de Lybet (Dark mode por defecto) */
+  --bg-1: #0a0a0a;
+  --bg-2: #121212;
+  --bg-3: #1a1a1a;
+  --text-1: #ffffff;
+  --text-2: #e0e0e0;
+  --text-muted: #888888;
+  --red: #e3000f;
+  --red-light: #ff3344;
+  --red-dark: #b3000b;
+  --border-1: #2a2a2a;
+  --border-2: #333333;
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+  --r-full: 9999px;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-1);
+  color: var(--text-1);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Prevent pull-to-refresh on mobile */
+  overscroll-behavior-y: none;
+  /* Prevent text selection */
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+input, button, select, textarea {
+  font-family: inherit;
+  color: inherit;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-2);
+  border-radius: var(--r-full);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
