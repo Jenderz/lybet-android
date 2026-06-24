@@ -118,7 +118,6 @@
 @media (max-width: 767px) {
   .main-content:has(.panel-numeros.active-mobile) {
     overflow: hidden;
-    padding-bottom: 15px;
     display: flex;
     flex-direction: column;
   }
