@@ -123,7 +123,10 @@ const NumerosPanel: React.FC<NumerosPanelProps> = ({
             {/* NUMPAD: lotería O campo monto activo */}
             <div className={`input-zone numpad-zone ${!showAnimalsSlot ? 'zone-active' : 'zone-hidden'}`}>
               <div className="numpad">
-                {([1, 2, 3, 4, 5, 6, 7, 8, 9, 'C', 0, '.', '<'] as const).map(key => (
+                {/* 12 teclas en total para mantener la cuadrícula 3x4 */}
+                {(activeInput === 'monto' 
+                  ? [1, 2, 3, 4, 5, 6, 7, 8, 9, '.', 0, '<'] as const
+                  : [1, 2, 3, 4, 5, 6, 7, 8, 9, 'C', 0, '<'] as const).map(key => (
                   <button
                     key={String(key)}
                     className={`numpad-key ${key === 'C' ? 'clear' : ''} ${key === '.' ? 'decimal' : ''}`}

@@ -61,6 +61,16 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
     root.classList.add(activeTheme);
 
+    // Update meta theme-color for Android status bar
+    let metaThemeColor = document.querySelector('meta[name="theme-color"]');
+    if (!metaThemeColor) {
+      metaThemeColor = document.createElement('meta');
+      metaThemeColor.setAttribute('name', 'theme-color');
+      document.head.appendChild(metaThemeColor);
+    }
+    // #000000 for dark mode, #f2f2f7 for light mode (matching var(--bg-1))
+    metaThemeColor.setAttribute('content', activeTheme === 'dark' ? '#000000' : '#f2f2f7');
+
     // Font size logic
     root.classList.remove('text-sm', 'text-md', 'text-lg');
     if (fontSize === 'small') root.classList.add('text-sm');

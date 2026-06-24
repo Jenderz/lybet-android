@@ -36,9 +36,7 @@
 /* HEADER */
 .app-header {
   height: 60px;
-  background: var(--overlay-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: var(--bg-1);
   border-bottom: 1px solid var(--border-2);
   display: flex;
   justify-content: space-between;
