@@ -32,7 +32,10 @@ const NumerosPanel: React.FC<NumerosPanelProps> = ({
   );
 
   const isAnimalTab = tab === 'animalitos' || tab === 'pandaplus';
-  const showMobileAnimals = isAnimalTab && activeInput === 'numero';
+
+  // Mostrar animales cuando: tab de animales Y campo número activo
+  // Mostrar numpad cuando: tab de lotería O campo monto activo
+  const showAnimalsSlot = isAnimalTab && activeInput === 'numero';
 
   const handleNumpadKey = (key: number | 'C' | '.' | '<') => {
     if (key === 'C') {
@@ -42,7 +45,6 @@ const NumerosPanel: React.FC<NumerosPanelProps> = ({
       if (activeInput === 'numero') onSetNumero(numero.slice(0, -1));
       else onSetMonto(monto.slice(0, -1));
     } else if (key === '.') {
-      // FASE 3: Punto decimal para montos
       if (activeInput === 'monto' && !monto.includes('.')) {
         onSetMonto(monto + '.');
       }
@@ -58,6 +60,7 @@ const NumerosPanel: React.FC<NumerosPanelProps> = ({
     <div className={`panel-column panel-numeros ${mobileView === 'numeros' ? 'active-mobile' : 'hidden-mobile'}`}>
       <div className="play-creation-layout">
         <div className="play-inputs-and-keypad">
+
           {/* Displays de entrada */}
           <div className="input-display">
             <div className="input-group-row">
@@ -103,29 +106,39 @@ const NumerosPanel: React.FC<NumerosPanelProps> = ({
             ))}
           </div>
 
-          {/* Animales en móvil (cuando campo número está activo) */}
-          <div className={`mobile-animals-container ${showMobileAnimals ? 'active' : ''}`}>
-            <AnimalesGrid
-              animales={filteredAnimales}
-              selectedNumero={numero}
-              onSelect={n => { onSetNumero(n); onSetActiveInput('monto'); }}
-            />
+          {/* ── Zona de intercambio: Animales ↔ Numpad ── */}
+          <div className="input-zone-switcher">
+
+            {/* ANIMALES: tab animalitos + campo número activo */}
+            <div className={`input-zone animals-zone ${showAnimalsSlot ? 'zone-active' : 'zone-hidden'}`}>
+              <div className="animals-zone-inner">
+                <AnimalesGrid
+                  animales={filteredAnimales}
+                  selectedNumero={numero}
+                  onSelect={n => { onSetNumero(n); onSetActiveInput('monto'); }}
+                />
+              </div>
+            </div>
+
+            {/* NUMPAD: lotería O campo monto activo */}
+            <div className={`input-zone numpad-zone ${!showAnimalsSlot ? 'zone-active' : 'zone-hidden'}`}>
+              <div className="numpad">
+                {([1, 2, 3, 4, 5, 6, 7, 8, 9, 'C', 0, '.', '<'] as const).map(key => (
+                  <button
+                    key={String(key)}
+                    className={`numpad-key ${key === 'C' ? 'clear' : ''} ${key === '.' ? 'decimal' : ''}`}
+                    onClick={() => handleNumpadKey(key)}
+                  >
+                    {key}
+                  </button>
+                ))}
+              </div>
+            </div>
+
           </div>
 
-          {/* Numpad + botón agregar */}
+          {/* Botón Agregar — siempre visible */}
           <div className="numpad-wrapper">
-            <div className={`numpad ${showMobileAnimals ? 'hide-on-mobile' : ''}`}>
-              {/* FASE 3: Se añade el punto decimal */}
-              {([1, 2, 3, 4, 5, 6, 7, 8, 9, 'C', 0, '.', '<'] as const).map(key => (
-                <button
-                  key={String(key)}
-                  className={`numpad-key ${key === 'C' ? 'clear' : ''} ${key === '.' ? 'decimal' : ''}`}
-                  onClick={() => handleNumpadKey(key)}
-                >
-                  {key}
-                </button>
-              ))}
-            </div>
             <button
               className="add-play-btn"
               onClick={onAdd}
@@ -134,9 +147,10 @@ const NumerosPanel: React.FC<NumerosPanelProps> = ({
               <Plus size={24} /> Agregar Jugada
             </button>
           </div>
+
         </div>
 
-        {/* Panel Animales en Tablet/Desktop (sin duplicar JSX) */}
+        {/* Panel Animales en Tablet/Desktop */}
         {isAnimalTab && (
           <div className="animals-panel-selector desktop-only">
             <div className="panel-subtitle" style={{ padding: '0 0 10px 0', borderBottom: '1px solid var(--border-1)' }}>
@@ -151,7 +165,6 @@ const NumerosPanel: React.FC<NumerosPanelProps> = ({
                 />
               </div>
             </div>
-            {/* FASE 2 FIX: Un solo AnimalesGrid en lugar de dos bloques duplicados */}
             <AnimalesGrid
               animales={filteredAnimales}
               selectedNumero={numero}

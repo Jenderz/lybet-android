@@ -112,6 +112,84 @@
   padding-bottom: 120px; /* space for the new taller bottom nav */
 }
 
+/* Cuando el panel activo es NUMEROS en móvil:
+   el main-content NO debe hacer scroll propio para que el panel ocupe
+   toda la altura disponible y el numpad no quede oculto bajo el bottom-nav */
+@media (max-width: 767px) {
+  .main-content:has(.panel-numeros.active-mobile) {
+    overflow: hidden;
+    padding-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+
+/* En móvil, cuando la vista activa es NUMEROS,
+   el panel debe comportarse como columna fija sin scroll externo */
+@media (max-width: 767px) {
+  .panel-column.panel-numeros.active-mobile {
+    /* Ocupa toda la altura disponible del main-content */
+    height: 100%;
+    overflow: hidden;
+    padding-bottom: 0;
+  }
+
+  /* El layout interno del panel numeros: flex-column */
+  .panel-numeros.active-mobile .play-creation-layout {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    gap: 0;
+  }
+
+  /* Área superior scrolleable: displays + quick amounts + animales */
+  .panel-numeros.active-mobile .play-inputs-and-keypad {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  /* La zona de displays y quick amounts puede hacer scroll si hace falta */
+  .panel-numeros.active-mobile .input-display,
+  .panel-numeros.active-mobile .quick-amounts {
+    flex-shrink: 0;
+  }
+
+  /* El contenedor de animales ocupa el espacio flexible restante */
+  .panel-numeros.active-mobile .mobile-animals-container.active {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    margin-bottom: 0;
+  }
+
+  /* El numpad-wrapper se fija al fondo: NO hace scroll */
+  .panel-numeros.active-mobile .numpad-wrapper {
+    flex-shrink: 0;
+    padding-top: 10px;
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 4px);
+    background: var(--bg-1);
+    border-top: 1px solid var(--border-2);
+    margin: 0 -15px;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  /* El numpad en sí queda compacto */
+  .panel-numeros.active-mobile .numpad {
+    margin-bottom: 10px;
+  }
+
+  /* El botón Agregar Jugada siempre visible */
+  .panel-numeros.active-mobile .add-play-btn {
+    margin-bottom: 0;
+  }
+}
+
+
 /* SORTEOS VIEW */
 .section-header {
   display: flex;
@@ -307,6 +385,14 @@
   background: rgba(255, 255, 255, 0.15);
 }
 
+/* El play-inputs-and-keypad es flex-column en todo contexto */
+.play-inputs-and-keypad {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
 .numpad {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -314,6 +400,7 @@
   margin-bottom: 20px;
   place-items: center;
 }
+
 .numpad-key {
   width: 70px;
   height: 70px;
@@ -1781,26 +1868,73 @@ input:checked + .slider:before {
   border-color: var(--red-light);
 }
 
-/* --- ESTILOS DE TOGGLE PARA MÓVIL (NUMPAD VS ANIMALES) --- */
-.mobile-animals-container {
-  display: none;
+/* --- ZONA DE INTERCAMBIO: ANIMALES ↔ NUMPAD --- */
+
+/* El contenedor de intercambio ocupa el espacio flexible */
+.input-zone-switcher {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
 }
+
+/* Cada zona ocupa el mismo espacio */
+.input-zone {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  transition: opacity 0.22s ease, transform 0.22s ease;
+  will-change: opacity, transform;
+  overflow: hidden;
+}
+
+/* Zona visible */
+.input-zone.zone-active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Zona oculta (se va hacia arriba) */
+.input-zone.zone-hidden {
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+}
+
+/* Zona de animales */
+.animals-zone-inner {
+  flex: 1;
+  overflow: hidden;
+  background: var(--bg-3);
+  border: 1px solid var(--border-2);
+  border-radius: var(--r-md);
+  padding: 8px;
+}
+
+/* Zona del numpad — centrado igual que antes */
+.numpad-zone .numpad {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  place-items: center;
+  margin-bottom: 0;
+}
+
+/* numpad-wrapper ahora solo envuelve el botón Agregar */
+.numpad-wrapper {
+  flex-shrink: 0;
+  padding-top: 10px;
+}
+
+/* Ocultar el antiguo sistema de toggle (por si queda alguna referencia) */
+.mobile-animals-container { display: none !important; }
+.numpad.hide-on-mobile { /* ya no se usa */ }
+
 @media (max-width: 767px) {
-  .mobile-animals-container.active {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    overflow: hidden;
-    margin-bottom: 15px;
-    background: var(--bg-3);
-    border: 1px solid var(--border-2);
-    border-radius: var(--r-md);
-    padding: 10px;
-    animation: fadeIn 0.3s;
-  }
-  .numpad.hide-on-mobile {
-    display: none;
-  }
   .animals-panel-selector.desktop-only {
     display: none !important;
   }
@@ -1827,3 +1961,4 @@ input:checked + .slider:before {
     grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
   }
 }
+
