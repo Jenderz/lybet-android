@@ -1937,6 +1937,19 @@ input:checked + .slider:before {
   .animals-panel-selector.desktop-only {
     display: none !important;
   }
+  
+  /* Reducir tamaño del teclado en móviles para evitar que se desborde */
+  .numpad-key {
+    width: 55px;
+    height: 55px;
+    font-size: 1.4rem;
+  }
+  .numpad-key.decimal {
+    font-size: 1.6rem;
+  }
+  .numpad-zone .numpad {
+    gap: 8px;
+  }
 }
 
 /* Ajuste específico para Tablet Vertical para evitar compresión horizontal */
