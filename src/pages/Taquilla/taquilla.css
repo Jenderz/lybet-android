@@ -1,4 +1,24 @@
 /* LYBET TAQUILLA - ESTILOS MÓVILES */
+/* Fase 1: .dark como alias del modo predeterminado (OLED dark) */
+/* El selector :root (sin clase) ya es oscuro; .dark es explícito */
+:root.dark {
+  --bg-1: #000000;
+  --bg-2: #141416;
+  --bg-3: #1c1c1e;
+  --text-1: #ffffff;
+  --text-2: #ebebf5;
+  --text-muted: #8e8e93;
+  --border-1: #38383a;
+  --border-2: #2c2c2e;
+  --overlay-bg: rgba(20, 20, 22, 0.7);
+  --input-bg: rgba(10, 10, 10, 0.6);
+  --key-bg: rgba(255, 255, 255, 0.1);
+  --key-bg-hover: rgba(255, 255, 255, 0.15);
+  --modal-bg: rgba(28, 28, 30, 0.85);
+  --toast-text: #ffffff;
+  --nav-bg: rgba(20, 20, 22, 0.85);
+  --chip-bg: rgba(255, 255, 255, 0.08);
+}
 
 .app-layout {
   display: flex;
@@ -126,6 +146,34 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
   gap: 8px;
+}
+.sorteos-list {
+  padding-bottom: 110px; /* Space for the bottom nav on mobile */
+}
+
+/* FASE 3: Sorteos cerrados */
+.sorteo-card.closed {
+  opacity: 0.45;
+  cursor: not-allowed;
+  text-decoration: line-through;
+  position: relative;
+}
+.sorteo-card.closed:hover {
+  transform: none;
+  background: var(--bg-3);
+}
+.closed-icon {
+  color: var(--text-muted);
+}
+.sorteo-closed-badge {
+  display: block;
+  font-size: 0.55rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-weight: 700;
+  text-decoration: none;
+  margin-top: 2px;
+  letter-spacing: 0.5px;
 }
 .sorteo-card {
   background: var(--bg-3);
@@ -293,6 +341,12 @@
   box-shadow: 0 0 15px rgba(227, 0, 15, 0.4);
 }
 .numpad-key.clear { color: var(--red-light); font-weight: 500; }
+/* FASE 3: Tecla de punto decimal */
+.numpad-key.decimal {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-2);
+}
 
 .add-play-btn {
   width: 100%;
@@ -344,6 +398,21 @@
   flex-direction: column;
   gap: 8px;
   margin-bottom: 15px;
+}
+
+/* FASE 3: Animación de entrada para nuevas jugadas */
+@keyframes jugadaEntrada {
+  from {
+    opacity: 0;
+    transform: translateX(20px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+.jugada-row-new {
+  animation: jugadaEntrada 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 .jugada-row {
   background: var(--bg-3);
@@ -441,18 +510,101 @@
   border-radius: var(--r-md);
   font-weight: 700;
   display: flex; align-items: center; justify-content: center; gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
+.btn-secondary:hover:not(:disabled) {
+  background: var(--border-1);
+  border-color: var(--text-muted);
+}
+.btn-secondary:disabled { opacity: 0.4; cursor: not-allowed; }
 .btn-primary {
   flex: 2;
   height: 50px;
-  background: #00DC64; /* Verde Whatsapp style */
+  background: #00DC64;
   border: none;
   color: #000;
   border-radius: var(--r-md);
   font-weight: 800;
   display: flex; align-items: center; justify-content: center; gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
-.btn-primary:disabled { opacity: 0.5; }
+.btn-primary:hover:not(:disabled) {
+  background: #00f070;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 220, 100, 0.35);
+}
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* FASE 3: Diálogo de confirmación de limpieza */
+.confirm-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  border-radius: var(--r-lg);
+  padding: 20px;
+}
+.confirm-box {
+  background: var(--modal-bg);
+  border: 1px solid var(--border-2);
+  border-radius: var(--r-lg);
+  padding: 24px 20px;
+  width: 100%;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+  animation: jugadaEntrada 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.confirm-title {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--text-1);
+  text-align: center;
+}
+.confirm-desc {
+  font-size: 0.85rem;
+  color: var(--text-2);
+  text-align: center;
+  line-height: 1.5;
+}
+.confirm-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
+.confirm-btn-cancel {
+  flex: 1;
+  height: 44px;
+  background: var(--bg-3);
+  border: 1px solid var(--border-2);
+  color: var(--text-2);
+  border-radius: var(--r-md);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.confirm-btn-cancel:hover { background: var(--border-1); }
+.confirm-btn-ok {
+  flex: 1;
+  height: 44px;
+  background: var(--red);
+  border: none;
+  color: white;
+  border-radius: var(--r-md);
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.confirm-btn-ok:hover { background: var(--red-light); }
 
 /* BOTTOM NAV - iOS PREMIUM STYLE */
 .bottom-nav {
@@ -573,6 +725,77 @@
   100% { transform: scale(1); opacity: 1; }
 }
 
+/* FASE 2: Clases CSS para las pestañas de ajustes (antes eran estilos inline) */
+.settings-tabs-nav {
+  display: flex;
+  border-bottom: 1px solid var(--border-2);
+  padding: 0 20px;
+}
+.settings-tab-btn {
+  flex: 1;
+  padding: 12px 8px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-2);
+  font-weight: 400;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.settings-tab-btn:hover {
+  color: var(--text-1);
+}
+.settings-tab-btn.active {
+  border-bottom-color: var(--primary, var(--red));
+  color: var(--red);
+  font-weight: 600;
+}
+.settings-app-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.guide-btn {
+  padding: 4px 12px;
+  font-size: 0.8rem;
+  height: 32px;
+  margin-left: auto;
+  margin-right: 10px;
+}
+
+/* FASE 2: Barra de búsqueda de animales como clase CSS */
+.search-bar-wrapper {
+  width: 100%;
+  position: relative;
+}
+.search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-2);
+  pointer-events: none;
+}
+.animal-search-input {
+  width: 100%;
+  background: var(--input-bg);
+  border: 1px solid var(--border-2);
+  border-radius: var(--r-full);
+  padding: 8px 10px 8px 34px;
+  color: var(--text-1);
+  font-size: 0.85rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.animal-search-input:focus {
+  border-color: var(--red);
+}
+
 /* --- ESTILOS DE MODAL PREMIUM --- */
 .modal-overlay {
   position: fixed;
@@ -633,6 +856,42 @@
   overflow-y: auto;
   flex: 1;
 }
+
+/* --- SEGMENTED CONTROLS (Settings) --- */
+.segmented-control {
+  display: flex;
+  background: var(--bg-2);
+  border: 1px solid var(--border-2);
+  border-radius: var(--r-md);
+  padding: 4px;
+  gap: 4px;
+  margin-top: 10px;
+}
+.segmented-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-radius: var(--r-sm);
+  padding: 10px 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.segmented-btn:hover {
+  color: var(--text-1);
+}
+.segmented-btn.active {
+  background: var(--bg-3);
+  color: var(--text-1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
 
 /* --- SECCIÓN DE CONFIGURACIÓN BLUETOOTH --- */
 .config-section {
@@ -846,6 +1105,36 @@ input:checked + .slider:before {
   font-weight: 700;
   border-bottom: 1px solid var(--border-2);
   padding-bottom: 5px;
+}
+
+/* FASE 2: Modal footer (antes era style inline) */
+.modal-footer {
+  padding: 15px;
+  border-top: 1px solid var(--border-1);
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Guía pasos */
+.guide-steps {
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  font-size: 0.95rem;
+  color: var(--text-2);
+  line-height: 1.6;
+}
+.guide-steps li strong {
+  color: var(--text-1);
+}
+.guide-steps code {
+  background: var(--bg-3);
+  border: 1px solid var(--border-2);
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-family: var(--font-mono);
+  font-size: 0.85em;
 }
 .form-grid {
   display: grid;
@@ -1343,7 +1632,9 @@ input:checked + .slider:before {
     .panel-sorteos {
       grid-column: 1;
       grid-row: 1;
-      max-height: 250px;
+      /* FASE 3 FIX: Era 250px; ahora auto con máximo razonable */
+      max-height: clamp(200px, 38vh, 380px);
+      overflow-y: auto;
     }
     .panel-numeros {
       grid-column: 1;

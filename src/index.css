@@ -92,3 +92,8 @@ input, button, select, textarea {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--text-muted);
 }
+
+/* Global Font Size Scaling */
+html.text-sm { font-size: 14px; }
+html.text-md { font-size: 16px; }
+html.text-lg { font-size: 18px; }

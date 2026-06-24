@@ -10,6 +10,24 @@ interface AuthContextType {
   logout: () => void;
 }
 
+/** Solo guardamos campos mínimos en sesión — jamás la contraseña. */
+interface SessionData {
+  id: string;
+  nombre: string;
+  usuario: string;
+  rol: User['rol'];
+  estado: User['estado'];
+  parentId: string | null;
+  comision: number;
+  participacion: number;
+  cupo_bs: number;
+  cupo_usd: number;
+  codigoBarras?: string;
+  createdAt: string;
+}
+
+const SESSION_KEY = 'lybet_taq_session_v2';
+
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -24,17 +42,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     limitService.init();
 
     try {
-      const saved = localStorage.getItem('lybet_taq_session');
+      const saved = localStorage.getItem(SESSION_KEY);
       if (saved) {
-        const user = JSON.parse(saved) as User;
-        if (user.rol === 'Agencia') {
+        const session = JSON.parse(saved) as SessionData;
+        if (session.rol === 'Agencia') {
+          // Reconstruimos el User sin password
+          const user: User = { ...session, password: '' };
           setState({ isAuthenticated: true, currentUser: user });
         } else {
-          localStorage.removeItem('lybet_taq_session');
+          localStorage.removeItem(SESSION_KEY);
         }
       }
     } catch {
       // sesión inválida, ignorar
+      localStorage.removeItem(SESSION_KEY);
     }
   }, []);
 
@@ -51,7 +72,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         };
       }
       setState({ isAuthenticated: true, currentUser: user });
-      localStorage.setItem('lybet_taq_session', JSON.stringify(user));
+
+      // FASE 1 FIX: Guardar sesión SIN password
+      const session: SessionData = {
+        id: user.id,
+        nombre: user.nombre,
+        usuario: user.usuario,
+        rol: user.rol,
+        estado: user.estado,
+        parentId: user.parentId,
+        comision: user.comision,
+        participacion: user.participacion,
+        cupo_bs: user.cupo_bs,
+        cupo_usd: user.cupo_usd,
+        codigoBarras: user.codigoBarras,
+        createdAt: user.createdAt,
+      };
+      localStorage.setItem(SESSION_KEY, JSON.stringify(session));
       return { success: true };
     }
     return { success: false, error: 'Usuario o contraseña incorrectos.' };
@@ -59,7 +96,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const logout = () => {
     setState({ isAuthenticated: false, currentUser: null });
-    localStorage.removeItem('lybet_taq_session');
+    localStorage.removeItem(SESSION_KEY);
   };
 
   return (

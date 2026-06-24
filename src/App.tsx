@@ -12,9 +12,9 @@ const ThemeSelectorModal: React.FC = () => {
 
   return (
     <div className="modal-overlay fade-in" style={{ zIndex: 9999 }}>
-      <div className="modal-content" style={{ maxWidth: '400px', textAlign: 'center' }}>
-        <h2 style={{ marginBottom: '10px' }}>¡Bienvenido a Lybet!</h2>
-        <p style={{ color: 'var(--text-2)', marginBottom: '20px' }}>
+      <div className="modal-content" style={{ maxWidth: '400px', textAlign: 'center', padding: '30px 24px 24px' }}>
+        <h2 style={{ marginBottom: '10px', fontSize: '1.4rem' }}>¡Bienvenido a Lybet!</h2>
+        <p style={{ color: 'var(--text-2)', marginBottom: '24px', fontSize: '0.95rem' }}>
           Elige el diseño de tu preferencia. Podrás cambiarlo luego en configuración.
         </p>
         
