@@ -1908,6 +1908,8 @@ input:checked + .slider:before {
   border: 1px solid var(--border-2);
   border-radius: var(--r-md);
   padding: 8px;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Zona del numpad — centrado igual que antes */
